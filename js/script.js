@@ -1,18 +1,37 @@
-"use strict";
+const windowWidthEl = document.getElementById('window-width');
+const scrollYEl = document.getElementById('scroll-y');
+const focusStatusEl = document.getElementById('focus-status');
+const nameButtonEl = document.getElementById('name-button');
+const greetingEl = document.getElementById('greeting');
 
-const widthText = document.querySelector("#window-width");
-const scrollText = document.querySelector("#scroll-y");
-const focusStatus = document.querySelector("#focus-status");
-const nameButton = document.querySelector("#name-button");
-const greeting = document.querySelector("#greeting");
+function updateWindowWidth() {
+    if (windowWidthEl) {
+        windowWidthEl.textContent = window.innerWidth; 
+    }
+}
+updateWindowWidth();
+window.addEventListener('resize', updateWindowWidth);
 
-// Задание 1. Создайте функцию updateWidth(): widthText.textContent = window.innerWidth.
-// Вызовите её при загрузке скрипта и в обработчике resize.
+function updateScrollY() {
+    if (scrollYEl) {
+        scrollYEl.textContent = Math.round(window.scrollY);
+    }
+}
+updateScrollY();
+window.addEventListener('scroll', updateScrollY);
 
-// Задание 2. Покажите window.scrollY в scrollText.
-// Вызовите обновление при загрузке и на событии scroll.
+window.addEventListener('focus', () => {
+    if (focusStatusEl) focusStatusEl.textContent = 'Active';
+});
+window.addEventListener('blur', () => {
+    if (focusStatusEl) focusStatusEl.textContent = 'Inactive';
+});
 
-// Задание 3. На события focus и blur окна меняйте focusStatus.textContent.
-
-// Задание 4. По click на nameButton вызовите prompt().
-// Если пользователь ввёл непустое имя, обновите greeting.textContent.
+if (nameButtonEl && greetingEl) {
+    nameButtonEl.addEventListener('click', () => {
+        const userName = window.prompt('Имя:');
+        if (userName !== null && userName.trim() !== '') {
+            greetingEl.textContent = userName.trim();
+        }
+    });
+}
